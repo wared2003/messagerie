@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Léochat</title>
+</head>
+<body>
+<div id="msg">
+
+</div>
+<form>
+    <input type="text" placeholder="message" id="msginput">
+    <input type="submit" id="submit">
+</form>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    var socket = io();
+
+    const subbtn = document.querySelector('#submit')
+    const  msginput = document.querySelector('#msginput')
+    subbtn.addEventListener('click', (e)=>{
+        e.preventDefault();
+        socket.emit("chat message", msginput.value)
+        msginput.value = "";
+        return false;
+    })
+
+    socket.on("chat message", (msg)=>{
+        let p = document.createElement('p')
+        p.textContent = msg;
+        document.querySelector("#msg").append(p)
+    })
+</script>
+</body>
+</html>
+
